@@ -1,0 +1,1 @@
+redstone.setOutput("top",true)

@@ -1,0 +1,4 @@
+local monitorChannel=22068
+local craftingTurtleChannel=22063
+local oefenChannel=22069
+local storageChannel=22065
