@@ -41,9 +41,7 @@ local function monitorClear()
     monitor.setCursorPos(posx,posy)
 end
 
-local function manufactureItem()
-    print("called manufactureItem")
-end
+
 
 local function monitorGraph(list)
     monitor.setBackgroundColor(colors.lime)
@@ -141,6 +139,51 @@ local function monitorTouch()
     end
 end
 
+local function button(posx,posy,width,height,fun,symbol,color)
+    while true do
+    monitor.setCursorPos(posx,posy)
+    for i=1,width do
+        for j=1,height do
+            monitor.setCursorPos(posx+i,posy+j)
+            monitor.setBackgroundColor(color)
+            monitor.write(" ")
+        end
+    end
+    monitor.setCursorPos(posx+width/2,posy+height/2)
+    monitor.write(symbol)
+    local = _,_,x,y=os.pullEvent("monitor_touch")
+    if (x<=posx+width)and (x>=posx) and (y>=posy) and (y<=posy+heigth) then
+        fun
+    end
+    end
+end
+
+local function defaultMenu()
+    monitor.setBackgroundColor(colors.lime)
+    monitorClear()
+    button(monSizeX-1,0,5,5,return,x,colors.red)
+    monitor.setCursorPos(0,0)
+    monitor.setBackgroundColor(colors.lime)
+end
+local function manufactureItem()
+    print("called manufactureItem")
+    defaultMenu()
+    local reply=monitorTouch()
+    monitor.write("select whwat item you wish to manifacture: ")
+    local craftables={}
+    local buttons={}
+    for i=1,#craftables do
+        for i,item in craftables do
+            bottons[i]={x=monSizeX/i,y=monSizeY,width=2,height=2,fun=fun,symbol=item,color=colors.lightBlue}
+        end
+    end
+    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
+    if reply==1 then
+        pass--TODO: missing function handling
+    end
+    return
+end
+
 local function viewItems()
     print("called viewItems")
     monitor.setBackgroundColor(colors.lime)
@@ -210,7 +253,20 @@ local function storeItems()
 end
 
 local function loadSearchBar()
+    local abc={}
+    for i,24 do
+            abc={}
+    end
+    local word=""
+    while true do
 
+    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
+    --TODO> implementation of writing selected text on screen and saving + being able to search for item through touch
+        word=word..toString(reply)
+        if reply==25 then
+            return word
+        end
+    end
 end
 
 
@@ -224,7 +280,7 @@ local function monitorFillLine(character)
         monitor.write(character)
         monitor.setCursorPos(x+1,posy)
         x,y=monitor.getCursorPos()
-        print(x)
+        --print(x)
    end
    monitor.setCursorPos(posx,posy)
 end
@@ -252,39 +308,20 @@ local function monitorMainMenu()
     monitorFillVertical("|")
     monitor.setBackgroundColor(colors.white)
     monitor.setTextColor(colors.black)
-    monitor.setTextScale(1)
-    monitor.setCursorPos(monSizeX*0.25,monSizeY*0.25)
-    monitor.write("storeItems")
-    monitor.setCursorPos(monSizeX*0.75,monSizeY*0.25)
-    monitor.write("searchItem")
-    monitor.setCursorPos(monSizeX*0.75,monSizeY*0.75)
-    monitor.write("manufactureItem")
-    monitor.setCursorPos(monSizeX*0.25,monSizeY*0.75)
-    monitor.write("viewItems")
+    monitor.setTextScale(1.4)
+    buttons={{monSizeX*0.25,monSizeY*0.25,1,1,storeItems,"storeItems",colors.green},
+    {monSizeX*0.75,monSizeY*0.25,1,1,searchItem,"searchItem",colors.lightBlue},
+    {monSizeX*0.75,monSizeY*0.75,1,1,manufactureItem,"manufactureItem",colors.orange},
+    {monSizeX*0.25,monSizeY*0.75,1,1,viewGraph,"viewIems",colors.yellow}}
+    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
+    if reply==1 then
+        --TODO: implementation of handling of functions or smth
+    end
     monitor.setTextScale(1)
     monitor.setTextColor(colors.white)
     monitor.setBackgroundColor(colors.orange)
 end
-local function monitorWaiting()
-    print("called monitorWaiting")
-    local event, side, x, y =os.pullEvent("monitor_touch")
-    if x<monSizeX/2 then
-        if y<monSizeY/2 then
-            storeItems()
-        else
-            viewItems()
-        end
-    else
-        if y<monSizeY/2 then
-            loadSearchBar()
-            searchItem("kekw")
-        else
-            manufactureItem()
-        end
-    end
-    monitorMainMenu()
-    monitorWaiting()
-end
+
 local function monitorLoadingBar(frac)
     monitor.setTextScale(1.4)
     monitor.setBackgroundColor(colors.green)
