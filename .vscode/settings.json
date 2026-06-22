@@ -1,0 +1,8 @@
+{
+    "Lua.diagnostics.globals": [
+        "peripheral","turtle","parallel","colors","colours","turtle","os","term"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-field"
+    ]
+}
