@@ -2,6 +2,7 @@
 --aktuelle Brennstoff stand ueberpruefen(Kelp)
 --änder 3 zu 42
 local ovenList
+local storageChannel=22065
 function ovenList:burnTimer()
 end
 function ovenList:ofenQueue()

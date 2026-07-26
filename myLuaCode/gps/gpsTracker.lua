@@ -86,7 +86,7 @@ local function chooseLandmark()
     for i,landmark in pairs(landmarks) do
         if i%2==0 then
             term.setBackgroundColour(colours.cyan)
-            term.setCursorPos(mx/2,(mY/#landmarks*count)+1)
+            term.setCursorPos(mX/2,(mY/#landmarks*count)+1)
             print(i)
         else
             term.setBackgroundColor(colours.lightBlue)
@@ -96,9 +96,9 @@ local function chooseLandmark()
     local Event={os.pullEvent("mouse_click")}
     if Event[2]==2 then
         local x,y=Event[3],Event[4]
-        for i,v in pairs(landmark) do
+        for i,v in pairs(landmarks) do
             if y==(mY/#landmarks*count)+1 then
-                pingChannel(landmark)
+                pingChannel(landmarks)
                 return
             end
         end

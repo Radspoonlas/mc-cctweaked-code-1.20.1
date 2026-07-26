@@ -23,6 +23,3 @@ while true do
     end
 
 end
-
-local itemList=msg.list
-print(itemList)

@@ -10,7 +10,7 @@ distanceToBase={
     direction=0
 }
 
-function forward(n)
+local function forward(n)
     if(not n) then
         n=1
     end
@@ -32,7 +32,7 @@ function forward(n)
 
 end
 
-function rise(n)
+local function rise(n)
     if not n then n=1 end
     for i = 1, n, 1 do
         if(not turtle.up()) then
@@ -45,7 +45,8 @@ end
 
 
 
-function returnToBase(x,z,y)
+local function returnToBase(x,z,y,test)
+    local test=0
     if direction==0 then
         turtle.turnRight()
         turtle.turnRight()

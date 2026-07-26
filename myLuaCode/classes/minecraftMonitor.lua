@@ -1,5 +1,6 @@
 local requests={}
 local monitor
+local channelMonitor
 --gets default channel from systemfiles
 local function getDefaultChannel()
     return settings.get(channelMonitor)

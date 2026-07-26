@@ -197,9 +197,9 @@ local function button(posx,posy,width,height,fun,symbol,color)
     end
     monitor.setCursorPos(posx+width/2,posy+height/2)
     monitor.write(symbol)
-    local = _,_,x,y=os.pullEvent("monitor_touch")
+    local  _,_,x,y=os.pullEvent("monitor_touch")
     if (x<=posx+width)and (x>=posx) and (y>=posy) and (y<=posy+heigth) then
-        fun
+        
     end
     end
 end
@@ -207,10 +207,11 @@ end
 local function defaultMenu()
     monitor.setBackgroundColor(colors.lime)
     monitorClear()
-    button(monSizeX-1,0,5,5,return,x,colors.red)
+    button(monSizeX-1,0,5,5,x,colors.red)
     monitor.setCursorPos(0,0)
     monitor.setBackgroundColor(colors.lime)
 end
+
 local function manufactureItem()
     print("called manufactureItem")
     defaultMenu()
@@ -219,13 +220,9 @@ local function manufactureItem()
     local craftables={}
     local buttons={}
     for i=1,#craftables do
-        for i,item in craftables do
-            bottons[i]={x=monSizeX/i,y=monSizeY,width=2,height=2,fun=fun,symbol=item,color=colors.lightBlue}
-        end
     end
-    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
     if reply==1 then
-        pass--TODO: missing function handling
+        --TODO: missing function handling
     end
     return
 end
@@ -304,14 +301,9 @@ end
 
 local function loadSearchBar()
     local abc={}
-    for i,24 do
-            abc={}
-    end
     local word=""
     while true do
-
-    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
-    --TODO> implementation of writing selected text on screen and saving + being able to search for item through touch
+        --TODO> implementation of writing selected text on screen and saving + being able to search for item through touch
         word=word..toString(reply)
         if reply==25 then
             return word
@@ -329,13 +321,8 @@ local function monitorFillLine(character)
    while x<monSizeX do
         monitor.write(character)
         monitor.setCursorPos(x+1,posy)
-<<<<<<< HEAD:myLuaCode/storage/fullstorage/interactiveStorage.lua
-        x,_=monitor.getCursorPos()
-        print(x)
-=======
         x,y=monitor.getCursorPos()
         --print(x)
->>>>>>> 8cb6df9690f1b563db0e687acaac501d3d21a90b:myLuaCode/interactiveStorage.lua
    end
    monitor.setCursorPos(posx,posy)
 end
@@ -364,11 +351,11 @@ local function monitorMainMenu()
     monitor.setBackgroundColor(colors.white)
     monitor.setTextColor(colors.black)
     monitor.setTextScale(1.4)
-    buttons={{monSizeX*0.25,monSizeY*0.25,1,1,storeItems,"storeItems",colors.green},
+    local buttons={{monSizeX*0.25,monSizeY*0.25,1,1,storeItems,"storeItems",colors.green},
     {monSizeX*0.75,monSizeY*0.25,1,1,searchItem,"searchItem",colors.lightBlue},
     {monSizeX*0.75,monSizeY*0.75,1,1,manufactureItem,"manufactureItem",colors.orange},
     {monSizeX*0.25,monSizeY*0.75,1,1,viewGraph,"viewIems",colors.yellow}}
-    local reply= parallel.waitForAny(function() for i,v in buttons do button(v.x,v.y,v.width,v.height,v.fun,v.symbol,v.color )end)
+
     if reply==1 then
         --TODO: implementation of handling of functions or smth
     end
@@ -376,7 +363,6 @@ local function monitorMainMenu()
     monitor.setTextColor(colors.white)
     monitor.setBackgroundColor(colors.orange)
 end
-<<<<<<< HEAD:myLuaCode/storage/fullstorage/interactiveStorage.lua
 local function monitorWaiting()
     print("called monitorWaiting")
     local _, _, x, y =os.pullEvent("monitor_touch")
@@ -397,9 +383,6 @@ local function monitorWaiting()
     monitorMainMenu()
     monitorWaiting()
 end
-=======
-
->>>>>>> 8cb6df9690f1b563db0e687acaac501d3d21a90b:myLuaCode/interactiveStorage.lua
 local function monitorLoadingBar(frac)
     monitor.setTextScale(1.4)
     monitor.setBackgroundColor(colors.green)
@@ -420,7 +403,8 @@ local function checkFurnacesAvailability()
     for index, smelter in ipairs(smeltersPeripheral) do
         smelters[peripheral.getName(smelter)]={}
         smelters[peripheral.getName(smelter)].name=peripheral.getName(smelter)
-        if not smelter.getItemDetail(1) and not smelter.getItemDetail(1).name then
+        print(smelter.getItemDetail(1))
+        if (not smelter.getItemDetail(1)) then
             smelters.free=smelters.free+1
 
             smelters[peripheral.getName(smelter)].fuel={}
@@ -591,7 +575,7 @@ local function handleInput()
             if type(cnt)~="number" then
                 cnt="64"
             end
-            smeltItem(msg,cnt)
+            --smeltItem(msg,cnt)
         end
     end
 end
@@ -613,12 +597,13 @@ local function updateSmelters()
                 smelters.timerID=os.startTimer(burntime[smelters.fuel.name])
             end
         end
+        os.sleep(1)
     end
 end
 
 local function storeItemsTimer()
     while true do
-        os.sleep()
+        os.sleep(10)
         storeItems()
     end
 end
@@ -627,13 +612,8 @@ local function updater()
 end
 itemSavesCreate()
 monitorMainMenu()
-checkFurnacesAvailability()
+--checkFurnacesAvailability()
 monitor.setCursorBlink(true)
 while true do
-<<<<<<< HEAD:myLuaCode/storage/fullstorage/interactiveStorage.lua
-    parallel.waitForAll(monitorWaiting,handleInput,updater) 
+    parallel.waitForAll(monitorWaiting,handleInput)
 end
-=======
-    parallel.waitForAll(monitorWaiting,handleInput) 
-end
->>>>>>> 8cb6df9690f1b563db0e687acaac501d3d21a90b:myLuaCode/interactiveStorage.lua

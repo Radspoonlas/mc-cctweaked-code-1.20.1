@@ -341,7 +341,7 @@ local function loadList(file)
         table.insert(list,entry)
     end
     local f=loadfile(file,"t",{Entry=Entry,list=list})
-    f()
+    
     return list
 end
 

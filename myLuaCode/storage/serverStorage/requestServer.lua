@@ -5,7 +5,7 @@ local expect=require "cc.expect"
 
 --modem configuration
 
-modem:newWireless()
+
 
 
 local channels={
@@ -17,7 +17,7 @@ local channels={
     ["gps"]=65534,
     ["crafting"]=22069
 }
-modem:openChannel(channels.server)
+
 
 --monitor
 local monitor=peripheral.find("monitor")
@@ -32,9 +32,9 @@ end
 --smeltrequesthandler
 local function requestSmelting(itemName,itemCount)
     print("gotSmeltingRequest")
-    modem.open(ovenChannel)
-    modem.transmit(ovenChannel,serverChannel,{itemName,itemCount})
-    modem.close(ovenChannel)
+    modem.open(channels["oven"])
+    modem.transmit(channels["oven"],channels["server"],{itemName,itemCount})
+    modem.close(channels["oven"])
 end
 
 --craftingrequesthandler
@@ -63,29 +63,24 @@ local function requestItemPull(replyChannel,itemName,itemCount,toInv,toSlot)
 end
 
 --updater for monitor
-local function updateMonitor(itemList)
+local function updateMonitor(args)
+    local itemList=args.list
     print("got itemList update")
-    modem:send(channels.monitor,channels.server,{list=itemList})
+    modem:send(channels.monitor,channels.server,{cmd="itemList",list=itemList})
 end
-
---sleep 10
-local function wait_for_sleep()
-    os.sleep(10)
-    return
-end
-
 
 --requester for itemList
 local function requestItemList()
     print("getting itemList...")
-    modem:send(channels.storage,channels.server,{"itemList"})
+    print("sending request to: ",channels.storage," from: ",channels.server)
+    modem:send(channels.storage,channels.server,{cmd="itemList"})
     print("out of requestitemList")
 end
 
 print("starting server")
 print("starting while")
 
---EventManager
+--init
 local handles={
     {name="smelt",fun=requestSmelting},
     {name="craft",fun=requestCrafting},
@@ -95,7 +90,11 @@ local handles={
     {name="itemList",fun=updateMonitor},
     {name="getItemList",fun=requestItemList}
 }
-    eventHandler:makeHandle(handles)
+eventHandler:makeHandle(handles)
+modem:newWireless()
+modem:openChannel(channels.server)
+
+--main
 while true do
     parallel.waitForAll(function () eventHandler:wait_for_workEvent() end,function() eventHandler:wait_for_Event() end)
 end

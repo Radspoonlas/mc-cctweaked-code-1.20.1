@@ -1,6 +1,6 @@
 
 
-function inspectIfChest( ... )
+local function inspectIfChest( ... )
     print("inspecting if Chest")
     turtle.turnLeft()
     turtle.turnLeft() 
@@ -15,7 +15,7 @@ function inspectIfChest( ... )
     return false
 end
 
-function findWater()
+local function findWater()
     print("now in findWater")
     local distanceToShore=0
     local levelToShore=0 
@@ -38,7 +38,7 @@ function findWater()
     return distanceToShore,levelToShore
 end
 
-function farmKelp()
+local function findKelp()
     print("now in farmKelp")
     local _,info=turtle.inspectDown()
     print(info.name)
@@ -114,7 +114,7 @@ function farmKelp()
     turtle.turnLeft()
 end
 
-function goToShore(x,y,z1)
+local function goToShore(x,y,z1)
     print("in goToShore")
     for i = 1, y do
         while not turtle.up() do
@@ -160,7 +160,7 @@ while true do
         local _,info=turtle.inspectDown()
         print(info.name)
     end
-    farmKelp()
+    findKelp()
    goToShore(x,y)
 end
 

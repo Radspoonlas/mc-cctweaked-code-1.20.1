@@ -1,6 +1,7 @@
 local itemList
 local monitorchannel=22068
 local storageChannel=22065
+local localChannel=22069
 local modems={peripheral.find("modem")}
 local modem
 for i,m in ipairs(modems) do

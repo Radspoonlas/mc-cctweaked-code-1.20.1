@@ -1,14 +1,12 @@
 local args={...}
 local myChannel=2206
 local smelteryChannel=22069
+local storageChannel=22065
 if not args[1] then
     print("no arguments given")
 end
 local name="minecraft:" .. args[1]
 local count=1
-if args[2] then
-    count=tonumber(args[2])
-end
 local modem=peripheral.find("modem") or error("no modem",0)
 modem.open(myChannel)
 

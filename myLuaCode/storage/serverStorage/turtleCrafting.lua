@@ -1,9 +1,7 @@
 local modem=peripheral.find("modem")
 modem.open(27)
-
+local self="test"
 local function requestItem(itemName,itemCount,slot)
-    print("requesting item", itemName ,"in",self,"with count",itemCount)
-
     modem.transmit(3,27,{'pull',self,slot,itemName,itemCount})
 end
 local function selectItem(itemName)

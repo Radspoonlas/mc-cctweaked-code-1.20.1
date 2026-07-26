@@ -1,0 +1,17 @@
+{
+    "Lua.diagnostics.globals": [
+        "term",
+        "peripheral",
+        "turtle",
+        "gps",
+        "read",
+        "parallel",
+        "settings",
+        "colours",
+        "colors",
+        "keys",
+        "shell",
+        "multishell",
+        "redstone"
+    ]
+}

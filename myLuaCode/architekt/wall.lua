@@ -6,7 +6,7 @@ local function findblock(blockName)
             local info=turtle.getItemDetail(i)
             if info then
                 if info.name==blockName then
-                    select(i)
+                    turtle.select(i)
                     return true
                 end
             end
@@ -16,7 +16,7 @@ local function findblock(blockName)
         for i=1,16 do
             local info=turtle.getItemDetail(i)
             if info then
-                select(i)
+                turtle.select(i)
                 return true
             end
         end
